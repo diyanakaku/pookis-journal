@@ -4,16 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { CalendarDays, Sparkles, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { MoodSelector } from "./MoodSelector";
 
 interface JournalEntry {
   id: string;
   date: string;
   content: string;
   timestamp: number;
+  mood?: string;
 }
 
 export const JournalEntryComponent = () => {
   const [currentEntry, setCurrentEntry] = useState('');
+  const [currentMood, setCurrentMood] = useState('');
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [isAutoSaving, setIsAutoSaving] = useState(false);
   const { toast } = useToast();
@@ -33,6 +36,7 @@ export const JournalEntryComponent = () => {
     const todayEntry = entries.find(entry => entry.date === today);
     if (todayEntry) {
       setCurrentEntry(todayEntry.content);
+      setCurrentMood(todayEntry.mood || '');
     }
   }, [entries, today]);
 
@@ -56,7 +60,8 @@ export const JournalEntryComponent = () => {
       id: `${today}-${Date.now()}`,
       date: today,
       content: currentEntry,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      mood: currentMood
     };
 
     const updatedEntries = entries.filter(entry => entry.date !== today);
@@ -78,6 +83,15 @@ export const JournalEntryComponent = () => {
       .filter(entry => entry.date !== today);
   };
 
+  const getMoodEmoji = (mood: string) => {
+    const moodMap: { [key: string]: string } = {
+      happy: '😊', sad: '😔', peaceful: '😌', frustrated: '😤',
+      thoughtful: '🤔', tired: '😴', excited: '🥳', anxious: '😰',
+      grateful: '💝', neutral: '😐'
+    };
+    return moodMap[mood] || '😐';
+  };
+
   return (
     <div className="space-y-6">
       {/* Today's Entry */}
@@ -97,12 +111,19 @@ export const JournalEntryComponent = () => {
           </div>
         </div>
         
-        <Textarea
-          value={currentEntry}
-          onChange={(e) => setCurrentEntry(e.target.value)}
-          placeholder="How was your day? What are you thinking about? Write your thoughts here..."
-          className="min-h-[200px] text-base leading-relaxed resize-none border-0 bg-card/50 focus:bg-card transition-smooth placeholder:text-muted-foreground/60"
-        />
+        <div className="space-y-4">
+          <MoodSelector 
+            selectedMood={currentMood} 
+            onMoodChange={setCurrentMood} 
+          />
+          
+          <Textarea
+            value={currentEntry}
+            onChange={(e) => setCurrentEntry(e.target.value)}
+            placeholder="How was your day? What are you thinking about? Write your thoughts here..."
+            className="min-h-[200px] text-base leading-relaxed resize-none border-0 bg-card/50 focus:bg-card transition-smooth placeholder:text-muted-foreground/60"
+          />
+        </div>
         
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -135,7 +156,14 @@ export const JournalEntryComponent = () => {
           <div className="space-y-4">
             {getRecentEntries().map((entry) => (
               <div key={entry.id} className="p-4 bg-muted/30 rounded-lg">
-                <div className="text-sm text-muted-foreground mb-2">{entry.date}</div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm text-muted-foreground">{entry.date}</div>
+                  {entry.mood && (
+                    <span className="text-lg" title={entry.mood}>
+                      {getMoodEmoji(entry.mood)}
+                    </span>
+                  )}
+                </div>
                 <p className="text-foreground line-clamp-3">
                   {entry.content.length > 150 
                     ? `${entry.content.substring(0, 150)}...` 

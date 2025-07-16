@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { JournalEntryComponent } from '@/components/JournalEntry';
 import { WeeklySummary } from '@/components/WeeklySummary';
+import { WritingStats } from '@/components/WritingStats';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { PenTool, Sparkles, Calendar, Heart } from "lucide-react";
+import { PenTool, Sparkles, BarChart3, Heart } from "lucide-react";
 import journalHero from '@/assets/journal-hero.jpg';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState<'journal' | 'summary'>('journal');
+  const [activeTab, setActiveTab] = useState<'journal' | 'summary' | 'stats'>('journal');
+  const [entries, setEntries] = useState<Array<{
+    id: string;
+    date: string;
+    content: string;
+    timestamp: number;
+    mood?: string;
+  }>>([]);
+
+  // Load entries for stats
+  useEffect(() => {
+    const savedEntries = localStorage.getItem('journalEntries');
+    if (savedEntries) {
+      setEntries(JSON.parse(savedEntries));
+    }
+  }, [activeTab]); // Refresh when tab changes
 
   return (
     <div className="min-h-screen bg-gradient-primary">
@@ -62,6 +78,14 @@ const Index = () => {
                   <Sparkles className="h-4 w-4" />
                   AI Summary
                 </Button>
+                <Button 
+                  onClick={() => setActiveTab('stats')}
+                  variant={activeTab === 'stats' ? 'default' : 'secondary'}
+                  className="gap-2"
+                >
+                  <BarChart3 className="h-4 w-4" />
+                  My Progress
+                </Button>
               </div>
             </div>
             
@@ -99,6 +123,14 @@ const Index = () => {
                   <Sparkles className="h-4 w-4" />
                   Weekly Summary
                 </Button>
+                <Button
+                  variant={activeTab === 'stats' ? 'default' : 'ghost'}
+                  className="w-full justify-start gap-2"
+                  onClick={() => setActiveTab('stats')}
+                >
+                  <BarChart3 className="h-4 w-4" />
+                  My Progress
+                </Button>
               </nav>
             </Card>
           </div>
@@ -107,6 +139,15 @@ const Index = () => {
           <div className="lg:col-span-3">
             {activeTab === 'journal' && <JournalEntryComponent />}
             {activeTab === 'summary' && <WeeklySummary />}
+            {activeTab === 'stats' && (
+              <div className="space-y-6">
+                <div className="text-center mb-6">
+                  <h2 className="text-2xl font-bold text-foreground mb-2">Your Writing Journey</h2>
+                  <p className="text-muted-foreground">Track your progress and celebrate your consistency</p>
+                </div>
+                <WritingStats entries={entries} />
+              </div>
+            )}
           </div>
         </div>
       </main>

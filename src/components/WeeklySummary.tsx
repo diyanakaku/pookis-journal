@@ -10,6 +10,7 @@ interface JournalEntry {
   date: string;
   content: string;
   timestamp: number;
+  mood?: string;
 }
 
 export const WeeklySummary = () => {
