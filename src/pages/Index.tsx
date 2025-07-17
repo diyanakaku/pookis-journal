@@ -36,8 +36,9 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-gradient-accent rounded-lg flex items-center justify-center">
-                <Heart className="h-4 w-4 text-red" />
-              </div>
+  <Heart className="h-4 w-4" style={{ color: 'hsl(345, 75%, 80%)' }} />
+</div>
+
               <h1 className="text-2xl font-cursive font-bold text-foreground">Pookie's Journal</h1>
             </div>
             <div className="text-sm text-muted-foreground">
@@ -54,10 +55,11 @@ const Index = () => {
             <div className="space-y-6">
               <div className="space-y-4">
                 <h2 className="text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
-                  Your thoughts,
-                  <span className="bg-rose-gold bg-clip-text text-transparent"> beautifully </span>
-                  captured
-                </h2>
+  Your thoughts,
+  <span className="text-rose-gold"> beautifully </span>
+  captured
+</h2>
+
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   Write your daily thoughts and let AI help you discover patterns, 
                   growth, and insights in your journey.
