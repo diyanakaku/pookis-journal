@@ -59,10 +59,10 @@ const Index = () => {
               <div className="space-y-4">
                 <h2 className="text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
   Your thoughts,
-  <span style={{ color: 'hsl(345, 75%, 80%)' }}>
+<br/>
+  <span style={{ color: 'hsla(344, 66%, 85%, 1.00)' }}>
   beautifully
 </span>
-
   captured
 </h2>
 
