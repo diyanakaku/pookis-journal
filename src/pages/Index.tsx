@@ -59,7 +59,6 @@ const Index = () => {
               <div className="space-y-4">
                 <h2 className="text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
   Your thoughts,
-<br/>
   <span style={{ color: 'hsla(345, 79%, 87%, 1.00)' }}>
   beautifully
 </span>
