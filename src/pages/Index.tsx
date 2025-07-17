@@ -35,8 +35,11 @@ const Index = () => {
         <div className="max-w-4xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-accent rounded-lg flex items-center justify-center">
-  <Heart className="h-4 w-4" style={{ color: 'hsl(345, 75%, 80%)' }} />
+              <div
+  className="w-8 h-8 rounded-lg flex items-center justify-center"
+  style={{ backgroundColor: 'hsl(345, 75%, 80%)' }}
+>
+  <Heart className="h-4 w-4 text-white" />
 </div>
 
               <h1 className="text-2xl font-cursive font-bold text-foreground">Pookie's Journal</h1>
@@ -56,7 +59,10 @@ const Index = () => {
               <div className="space-y-4">
                 <h2 className="text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
   Your thoughts,
-  <span className="text-rose-gold"> beautifully </span>
+  <span style={{ color: 'hsl(345, 75%, 80%)' }}>
+  beautifully
+</span>
+
   captured
 </h2>
 
