@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { JournalEntryComponent } from '@/components/JournalEntry';
 import { WeeklySummary } from '@/components/WeeklySummary';
 import { WritingStats } from '@/components/WritingStats';
+import { WritingPrompts } from '@/components/WritingPrompts';
+import { MoodCalendar } from '@/components/MoodCalendar';
+import { GoalTracker } from '@/components/GoalTracker';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { PenTool, Sparkles, BarChart3, Heart } from "lucide-react";
+import { PenTool, Sparkles, BarChart3, Heart, Lightbulb, Calendar, Target } from "lucide-react";
 import journalHero from '@/assets/journal-hero.jpg';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState<'journal' | 'summary' | 'stats'>('journal');
+  const [activeTab, setActiveTab] = useState<'journal' | 'summary' | 'stats' | 'prompts' | 'mood' | 'goals'>('journal');
   const [entries, setEntries] = useState<Array<{
     id: string;
     date: string;
@@ -35,7 +38,7 @@ const Index = () => {
               <div className="w-8 h-8 bg-gradient-accent rounded-lg flex items-center justify-center">
                 <Heart className="h-4 w-4 text-accent-foreground" />
               </div>
-              <h1 className="text-2xl font-bold text-foreground">Pink Ink</h1>
+              <h1 className="text-2xl font-cursive font-bold text-foreground">Pookie's Journal</h1>
             </div>
             <div className="text-sm text-muted-foreground">
               AI-Powered Journal
@@ -50,9 +53,9 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <div className="space-y-4">
-                <h2 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+                <h2 className="text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
                   Your thoughts,
-                  <span className="bg-gradient-accent bg-clip-text text-transparent"> beautifully </span>
+                  <span className="bg-gradient-rose-gold bg-clip-text text-transparent"> beautifully </span>
                   captured
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
@@ -85,6 +88,30 @@ const Index = () => {
                 >
                   <BarChart3 className="h-4 w-4" />
                   My Progress
+                </Button>
+                <Button 
+                  onClick={() => setActiveTab('prompts')}
+                  variant={activeTab === 'prompts' ? 'default' : 'secondary'}
+                  className="gap-2"
+                >
+                  <Lightbulb className="h-4 w-4" />
+                  Prompts
+                </Button>
+                <Button 
+                  onClick={() => setActiveTab('mood')}
+                  variant={activeTab === 'mood' ? 'default' : 'secondary'}
+                  className="gap-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Mood
+                </Button>
+                <Button 
+                  onClick={() => setActiveTab('goals')}
+                  variant={activeTab === 'goals' ? 'default' : 'secondary'}
+                  className="gap-2"
+                >
+                  <Target className="h-4 w-4" />
+                  Goals
                 </Button>
               </div>
             </div>
@@ -131,6 +158,30 @@ const Index = () => {
                   <BarChart3 className="h-4 w-4" />
                   My Progress
                 </Button>
+                <Button
+                  variant={activeTab === 'prompts' ? 'default' : 'ghost'}
+                  className="w-full justify-start gap-2"
+                  onClick={() => setActiveTab('prompts')}
+                >
+                  <Lightbulb className="h-4 w-4" />
+                  Writing Prompts
+                </Button>
+                <Button
+                  variant={activeTab === 'mood' ? 'default' : 'ghost'}
+                  className="w-full justify-start gap-2"
+                  onClick={() => setActiveTab('mood')}
+                >
+                  <Calendar className="h-4 w-4" />
+                  Mood Calendar
+                </Button>
+                <Button
+                  variant={activeTab === 'goals' ? 'default' : 'ghost'}
+                  className="w-full justify-start gap-2"
+                  onClick={() => setActiveTab('goals')}
+                >
+                  <Target className="h-4 w-4" />
+                  Goal Tracker
+                </Button>
               </nav>
             </Card>
           </div>
@@ -142,12 +193,15 @@ const Index = () => {
             {activeTab === 'stats' && (
               <div className="space-y-6">
                 <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold text-foreground mb-2">Your Writing Journey</h2>
+                  <h2 className="text-2xl font-serif-elegant font-bold text-foreground mb-2">Your Writing Journey</h2>
                   <p className="text-muted-foreground">Track your progress and celebrate your consistency</p>
                 </div>
                 <WritingStats entries={entries} />
               </div>
             )}
+            {activeTab === 'prompts' && <WritingPrompts />}
+            {activeTab === 'mood' && <MoodCalendar />}
+            {activeTab === 'goals' && <GoalTracker />}
           </div>
         </div>
       </main>

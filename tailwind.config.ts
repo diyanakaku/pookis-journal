@@ -113,11 +113,19 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-soft': 'var(--gradient-soft)',
-				'gradient-accent': 'var(--gradient-accent)'
+				'gradient-accent': 'var(--gradient-accent)',
+				'gradient-rose-gold': 'var(--gradient-rose-gold)',
+				'gradient-blush': 'var(--gradient-blush)',
+				'gradient-mauve': 'var(--gradient-mauve)'
 			},
 			boxShadow: {
 				'soft': 'var(--shadow-soft)',
-				'glow': 'var(--shadow-glow)'
+				'glow': 'var(--shadow-glow)',
+				'elegant': 'var(--shadow-elegant)'
+			},
+			fontFamily: {
+				'cursive': ['Dancing Script', 'Brush Script MT', 'cursive'],
+				'serif-elegant': ['Playfair Display', 'Times New Roman', 'serif']
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)'

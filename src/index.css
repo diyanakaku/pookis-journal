@@ -8,43 +8,47 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Pink journal theme */
-    --background: 330 20% 97%;
-    --foreground: 330 30% 15%;
+    /* Pookie's Journal - Enhanced pink palette with rose gold, blush, and mauve */
+    --background: 340 25% 97%;
+    --foreground: 340 35% 12%;
 
-    --card: 330 15% 98%;
-    --card-foreground: 330 25% 20%;
+    --card: 340 20% 98%;
+    --card-foreground: 340 30% 18%;
 
-    --popover: 330 15% 98%;
-    --popover-foreground: 330 25% 20%;
+    --popover: 340 20% 98%;
+    --popover-foreground: 340 30% 18%;
 
-    --primary: 330 70% 75%;
-    --primary-foreground: 330 10% 5%;
+    --primary: 345 75% 70%;  /* Rose gold primary */
+    --primary-foreground: 340 10% 5%;
 
-    --secondary: 330 30% 92%;
-    --secondary-foreground: 330 25% 25%;
+    --secondary: 340 35% 90%; /* Blush secondary */
+    --secondary-foreground: 340 30% 22%;
 
-    --muted: 330 20% 94%;
-    --muted-foreground: 330 15% 45%;
+    --muted: 340 25% 92%;
+    --muted-foreground: 340 20% 40%;
 
-    --accent: 320 80% 85%;
-    --accent-foreground: 330 30% 15%;
+    --accent: 320 85% 80%; /* Mauve accent */
+    --accent-foreground: 340 35% 12%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 330 10% 98%;
+    --destructive-foreground: 340 10% 98%;
 
-    --border: 330 25% 88%;
-    --input: 330 20% 95%;
-    --ring: 330 70% 75%;
+    --border: 340 30% 85%;
+    --input: 340 25% 93%;
+    --ring: 345 75% 70%;
 
-    /* Custom pink gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(330, 70%, 85%), hsl(320, 80%, 90%));
-    --gradient-soft: linear-gradient(180deg, hsl(330, 15%, 98%), hsl(330, 20%, 94%));
-    --gradient-accent: linear-gradient(45deg, hsl(320, 80%, 85%), hsl(310, 70%, 80%));
+    /* Enhanced gradients with rose gold, blush, and mauve */
+    --gradient-primary: linear-gradient(135deg, hsl(345, 75%, 80%), hsl(340, 80%, 85%));
+    --gradient-soft: linear-gradient(180deg, hsl(340, 20%, 98%), hsl(340, 25%, 92%));
+    --gradient-accent: linear-gradient(45deg, hsl(320, 85%, 80%), hsl(310, 75%, 75%));
+    --gradient-rose-gold: linear-gradient(135deg, hsl(25, 70%, 85%), hsl(345, 75%, 80%));
+    --gradient-blush: linear-gradient(90deg, hsl(340, 80%, 88%), hsl(350, 70%, 85%));
+    --gradient-mauve: linear-gradient(180deg, hsl(320, 85%, 85%), hsl(310, 75%, 80%));
     
-    /* Elegant shadows */
-    --shadow-soft: 0 2px 20px hsl(330, 30%, 85% / 0.3);
-    --shadow-glow: 0 0 30px hsl(330, 70%, 85% / 0.4);
+    /* Enhanced shadows with rose gold tints */
+    --shadow-soft: 0 4px 25px hsl(345, 40%, 80% / 0.35);
+    --shadow-glow: 0 0 40px hsl(345, 75%, 80% / 0.5);
+    --shadow-elegant: 0 8px 32px hsl(25, 70%, 85% / 0.3);
     
     /* Smooth transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -114,5 +118,43 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* Typography system */
+  .font-cursive {
+    font-family: 'Dancing Script', 'Brush Script MT', cursive;
+  }
+
+  .font-serif-elegant {
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+  }
+
+  /* Animation utilities */
+  .animate-typing {
+    border-right: 2px solid hsl(var(--primary));
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: hsl(var(--primary)) }
+  }
+
+  .animate-save-success {
+    animation: saveSuccess 0.6s ease-out;
+  }
+
+  @keyframes saveSuccess {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(-5deg); }
+    50% { transform: scale(1.2) rotate(5deg); }
+    75% { transform: scale(1.1) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); }
   }
 }
