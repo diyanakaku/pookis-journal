@@ -60,7 +60,7 @@ const Index = () => {
                 <h2 className="text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
   Your thoughts,
 <br/>
-  <span style={{ color: 'hsla(344, 66%, 85%, 1.00)' }}>
+  <span style={{ color: 'hsla(345, 79%, 87%, 1.00)' }}>
   beautifully
 </span>
   captured
