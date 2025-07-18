@@ -124,8 +124,8 @@ export default {
 				'elegant': 'var(--shadow-elegant)'
 			},
 			fontFamily: {
-				'cursive': ['Dancing Script', 'Brush Script MT', 'cursive'],
-				'serif-elegant': ['Playfair Display', 'Times New Roman', 'serif']
+				'cursive': ['Kaushan Script', 'Brush Script MT', 'cursive'],
+				'serif-elegant': ['Cormorant Garamond', 'Times New Roman', 'serif']
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)'

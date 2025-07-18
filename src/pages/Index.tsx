@@ -55,7 +55,7 @@ const Index = () => {
               <div className="space-y-4">
                 <h2 className="text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
                   Your thoughts,
-                  <span className="bg-gradient-rose-gold bg-clip-text text-transparent"> beautifully </span>
+                  <span className="text-primary font-extrabold"> beautifully </span>
                   captured
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
