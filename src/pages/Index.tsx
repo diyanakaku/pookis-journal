@@ -35,7 +35,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
               <div  className="w-7 h-7 sm:w-8 sm:h-8 bg-white border-2 rounded-lg flex items-center justify-center">
-                <img src='../public/logo.png' className="h-8 w-8 sm:h-6 sm:w-6 text-accent-foreground pl-[0.5px] mt-[2px]" />
+                <img src='./public/logo.png' className="h-8 w-8 sm:h-6 sm:w-6 text-accent-foreground pl-[0.5px] mt-[2px]" />
               </div>
               <h1 className="text-xl sm:text-2xl font-cursive font-bold text-foreground">Pookie's Journal</h1>
             </div>
