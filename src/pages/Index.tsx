@@ -32,15 +32,15 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-primary">
       {/* Header */}
       <header className="bg-card/80 backdrop-blur-sm border-b border-border/50 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 py-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-accent rounded-lg flex items-center justify-center">
-                <Heart className="h-4 w-4 text-accent-foreground" />
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-accent rounded-lg flex items-center justify-center">
+                <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-accent-foreground" />
               </div>
-              <h1 className="text-2xl font-cursive font-bold text-foreground">Pookie's Journal</h1>
+              <h1 className="text-xl sm:text-2xl font-cursive font-bold text-foreground">Pookie's Journal</h1>
             </div>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
               AI-Powered Journal
             </div>
           </div>
@@ -49,78 +49,81 @@ const Index = () => {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-6 py-12">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <h2 className="text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+            <div className="space-y-4 sm:space-y-6 order-2 lg:order-1">
+              <div className="space-y-3 sm:space-y-4">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif-elegant font-bold text-foreground leading-tight">
                   Your thoughts,
                   <span className="text-primary font-extrabold"> beautifully </span>
                   captured
                 </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                   Write your daily thoughts and let AI help you discover patterns, 
                   growth, and insights in your journey.
                 </p>
               </div>
               
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 <Button 
                   onClick={() => setActiveTab('journal')}
                   variant={activeTab === 'journal' ? 'default' : 'secondary'}
-                  className="gap-2"
+                  className="gap-2 text-sm sm:text-base"
                 >
-                  <PenTool className="h-4 w-4" />
-                  Start Writing
+                  <PenTool className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Start Writing</span>
+                  <span className="sm:hidden">Write</span>
                 </Button>
                 <Button 
                   onClick={() => setActiveTab('summary')}
                   variant={activeTab === 'summary' ? 'default' : 'secondary'}
-                  className="gap-2"
+                  className="gap-2 text-sm sm:text-base"
                 >
-                  <Sparkles className="h-4 w-4" />
-                  AI Summary
+                  <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">AI Summary</span>
+                  <span className="sm:hidden">Summary</span>
                 </Button>
                 <Button 
                   onClick={() => setActiveTab('stats')}
                   variant={activeTab === 'stats' ? 'default' : 'secondary'}
-                  className="gap-2"
+                  className="gap-2 text-sm sm:text-base"
                 >
-                  <BarChart3 className="h-4 w-4" />
-                  My Progress
+                  <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">My Progress</span>
+                  <span className="sm:hidden">Progress</span>
                 </Button>
                 <Button 
                   onClick={() => setActiveTab('prompts')}
                   variant={activeTab === 'prompts' ? 'default' : 'secondary'}
-                  className="gap-2"
+                  className="gap-2 text-sm sm:text-base"
                 >
-                  <Lightbulb className="h-4 w-4" />
+                  <Lightbulb className="h-3 w-3 sm:h-4 sm:w-4" />
                   Prompts
                 </Button>
                 <Button 
                   onClick={() => setActiveTab('mood')}
                   variant={activeTab === 'mood' ? 'default' : 'secondary'}
-                  className="gap-2"
+                  className="gap-2 text-sm sm:text-base"
                 >
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                   Mood
                 </Button>
                 <Button 
                   onClick={() => setActiveTab('goals')}
                   variant={activeTab === 'goals' ? 'default' : 'secondary'}
-                  className="gap-2"
+                  className="gap-2 text-sm sm:text-base"
                 >
-                  <Target className="h-4 w-4" />
+                  <Target className="h-3 w-3 sm:h-4 sm:w-4" />
                   Goals
                 </Button>
               </div>
             </div>
             
-            <div className="relative">
+            <div className="relative order-1 lg:order-2">
               <img 
                 src={journalHero} 
                 alt="Beautiful pink journal"
-                className="w-full h-auto rounded-xl shadow-glow animate-float"
+                className="w-full h-auto max-w-md mx-auto lg:max-w-full rounded-xl shadow-glow"
               />
             </div>
           </div>
@@ -128,15 +131,15 @@ const Index = () => {
       </section>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-6 pb-12">
-        <div className="grid lg:grid-cols-4 gap-6">
-          {/* Navigation Sidebar */}
-          <div className="lg:col-span-1">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-8 sm:pb-12">
+        <div className="grid lg:grid-cols-4 gap-4 sm:gap-6">
+          {/* Navigation Sidebar - Hidden on mobile, shown in content area */}
+          <div className="hidden lg:block lg:col-span-1">
             <Card className="p-4 bg-card/80 backdrop-blur-sm shadow-soft border-0 sticky top-24">
               <nav className="space-y-2">
                 <Button
                   variant={activeTab === 'journal' ? 'default' : 'ghost'}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 text-sm"
                   onClick={() => setActiveTab('journal')}
                 >
                   <PenTool className="h-4 w-4" />
@@ -144,7 +147,7 @@ const Index = () => {
                 </Button>
                 <Button
                   variant={activeTab === 'summary' ? 'default' : 'ghost'}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 text-sm"
                   onClick={() => setActiveTab('summary')}
                 >
                   <Sparkles className="h-4 w-4" />
@@ -152,7 +155,7 @@ const Index = () => {
                 </Button>
                 <Button
                   variant={activeTab === 'stats' ? 'default' : 'ghost'}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 text-sm"
                   onClick={() => setActiveTab('stats')}
                 >
                   <BarChart3 className="h-4 w-4" />
@@ -160,7 +163,7 @@ const Index = () => {
                 </Button>
                 <Button
                   variant={activeTab === 'prompts' ? 'default' : 'ghost'}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 text-sm"
                   onClick={() => setActiveTab('prompts')}
                 >
                   <Lightbulb className="h-4 w-4" />
@@ -168,7 +171,7 @@ const Index = () => {
                 </Button>
                 <Button
                   variant={activeTab === 'mood' ? 'default' : 'ghost'}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 text-sm"
                   onClick={() => setActiveTab('mood')}
                 >
                   <Calendar className="h-4 w-4" />
@@ -176,7 +179,7 @@ const Index = () => {
                 </Button>
                 <Button
                   variant={activeTab === 'goals' ? 'default' : 'ghost'}
-                  className="w-full justify-start gap-2"
+                  className="w-full justify-start gap-2 text-sm"
                   onClick={() => setActiveTab('goals')}
                 >
                   <Target className="h-4 w-4" />
@@ -188,13 +191,73 @@ const Index = () => {
 
           {/* Content Area */}
           <div className="lg:col-span-3">
+            {/* Mobile Navigation - Show on small screens */}
+            <div className="lg:hidden mb-4 sm:mb-6">
+              <div className="flex flex-wrap gap-2 p-3 bg-card/80 backdrop-blur-sm rounded-lg shadow-soft">
+                <Button
+                  variant={activeTab === 'journal' ? 'default' : 'ghost'}
+                  size="sm"
+                  className="gap-1 text-xs"
+                  onClick={() => setActiveTab('journal')}
+                >
+                  <PenTool className="h-3 w-3" />
+                  Journal
+                </Button>
+                <Button
+                  variant={activeTab === 'summary' ? 'default' : 'ghost'}
+                  size="sm"
+                  className="gap-1 text-xs"
+                  onClick={() => setActiveTab('summary')}
+                >
+                  <Sparkles className="h-3 w-3" />
+                  Summary
+                </Button>
+                <Button
+                  variant={activeTab === 'stats' ? 'default' : 'ghost'}
+                  size="sm"
+                  className="gap-1 text-xs"
+                  onClick={() => setActiveTab('stats')}
+                >
+                  <BarChart3 className="h-3 w-3" />
+                  Stats
+                </Button>
+                <Button
+                  variant={activeTab === 'prompts' ? 'default' : 'ghost'}
+                  size="sm"
+                  className="gap-1 text-xs"
+                  onClick={() => setActiveTab('prompts')}
+                >
+                  <Lightbulb className="h-3 w-3" />
+                  Prompts
+                </Button>
+                <Button
+                  variant={activeTab === 'mood' ? 'default' : 'ghost'}
+                  size="sm"
+                  className="gap-1 text-xs"
+                  onClick={() => setActiveTab('mood')}
+                >
+                  <Calendar className="h-3 w-3" />
+                  Mood
+                </Button>
+                <Button
+                  variant={activeTab === 'goals' ? 'default' : 'ghost'}
+                  size="sm"
+                  className="gap-1 text-xs"
+                  onClick={() => setActiveTab('goals')}
+                >
+                  <Target className="h-3 w-3" />
+                  Goals
+                </Button>
+              </div>
+            </div>
+
             {activeTab === 'journal' && <JournalEntryComponent />}
             {activeTab === 'summary' && <WeeklySummary />}
             {activeTab === 'stats' && (
-              <div className="space-y-6">
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-serif-elegant font-bold text-foreground mb-2">Your Writing Journey</h2>
-                  <p className="text-muted-foreground">Track your progress and celebrate your consistency</p>
+              <div className="space-y-4 sm:space-y-6">
+                <div className="text-center mb-4 sm:mb-6">
+                  <h2 className="text-xl sm:text-2xl font-serif-elegant font-bold text-foreground mb-2">Your Writing Journey</h2>
+                  <p className="text-sm sm:text-base text-muted-foreground">Track your progress and celebrate your consistency</p>
                 </div>
                 <WritingStats entries={entries} />
               </div>
@@ -207,10 +270,10 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-card/60 backdrop-blur-sm border-t border-border/50 mt-12">
-        <div className="max-w-4xl mx-auto px-6 py-8 text-center">
-          <p className="text-muted-foreground">
-            Made with <Heart className="h-4 w-4 inline text-primary" /> for mindful reflection
+      <footer className="bg-card/60 backdrop-blur-sm border-t border-border/50 mt-8 sm:mt-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 text-center">
+          <p className="text-sm sm:text-base text-muted-foreground">
+            Made with <Heart className="h-3 w-3 sm:h-4 sm:w-4 inline text-primary" /> for mindful reflection
           </p>
         </div>
       </footer>
