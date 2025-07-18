@@ -6,7 +6,7 @@ import { CalendarDays, Sparkles, Save, Brain, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { MoodSelector } from "./MoodSelector";
 import { analyzeSentiment, isAPIKeyConfigured } from "@/lib/openai";
-
+//
 interface JournalEntry {
   id: string;
   date: string;
