@@ -35,8 +35,8 @@ const Index = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-accent rounded-lg flex items-center justify-center">
-                <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-accent-foreground" />
+              <div  className="w-7 h-7 sm:w-8 sm:h-8 bg-white border-2 rounded-lg flex items-center justify-center">
+                <img src='../public/logo.png' className="h-8 w-8 sm:h-6 sm:w-6 text-accent-foreground pl-[0.5px] mt-[2px]" />
               </div>
               <h1 className="text-xl sm:text-2xl font-cursive font-bold text-foreground">Pookie's Journal</h1>
             </div>
