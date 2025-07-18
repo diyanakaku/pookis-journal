@@ -20,13 +20,12 @@ const Index = () => {
     mood?: string;
   }>>([]);
 
-  // Load entries for stats
   useEffect(() => {
     const savedEntries = localStorage.getItem('journalEntries');
     if (savedEntries) {
       setEntries(JSON.parse(savedEntries));
     }
-  }, [activeTab]); // Refresh when tab changes
+  }, [activeTab]);
 
   return (
     <div className="min-h-screen bg-gradient-primary">

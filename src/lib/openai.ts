@@ -1,12 +1,9 @@
 import OpenAI from 'openai';
-
-// You'll need to add your OpenAI API key here when you clone to GitHub
-// For development, you can replace this with your actual API key
 const OPENAI_API_KEY = 'your-openai-api-key-here';
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
-  dangerouslyAllowBrowser: true // Only for development - use backend in production
+  dangerouslyAllowBrowser: true
 });
 
 export interface SentimentAnalysis {
@@ -18,7 +15,6 @@ export interface SentimentAnalysis {
 export const analyzeSentiment = async (journalText: string): Promise<SentimentAnalysis> => {
   try {
     if (!OPENAI_API_KEY || OPENAI_API_KEY === 'your-openai-api-key-here') {
-      // Fallback to manual mood selection when API key is not configured
       return {
         mood: 'neutral',
         confidence: 0,
@@ -64,7 +60,6 @@ Be empathetic and understanding. Consider the overall emotional tone, not just i
     };
   } catch (error) {
     console.error('Error analyzing sentiment:', error);
-    // Fallback to neutral mood on error
     return {
       mood: 'neutral',
       confidence: 0,

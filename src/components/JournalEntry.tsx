@@ -29,7 +29,6 @@ export const JournalEntryComponent = () => {
 
   const today = new Date().toDateString();
 
-  // Load entries from localStorage on mount
   useEffect(() => {
     const savedEntries = localStorage.getItem('journalEntries');
     if (savedEntries) {
@@ -37,7 +36,6 @@ export const JournalEntryComponent = () => {
     }
   }, []);
 
-  // Load today's entry if it exists
   useEffect(() => {
     const todayEntry = entries.find(entry => entry.date === today);
     if (todayEntry) {
@@ -67,8 +65,7 @@ export const JournalEntryComponent = () => {
     try {
       const analysis = await analyzeSentiment(currentEntry);
       setAiAnalysis(analysis);
-      setCurrentMood(analysis.mood); // Auto-set the mood from AI analysis
-      
+      setCurrentMood(analysis.mood);
       toast({
         title: "AI Analysis Complete 🧠",
         description: `Detected mood: ${analysis.mood}. ${analysis.reason}`,
@@ -97,7 +94,6 @@ export const JournalEntryComponent = () => {
     setIsSaving(true);
     
     try {
-      // If no mood is selected and AI analysis is available, use AI mood
       let finalMood = currentMood;
       let analysis = aiAnalysis;
       
@@ -159,7 +155,6 @@ export const JournalEntryComponent = () => {
 
   return (
     <div className="space-y-6">
-      {/* Today's Entry */}
       <Card className="p-6 bg-gradient-soft shadow-soft border-0">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
@@ -190,111 +185,62 @@ export const JournalEntryComponent = () => {
           />
         </div>
         
-        {/* AI Analysis Section */}
-        {isAPIKeyConfigured() && (
-          <div className="mt-4 p-4 bg-muted/30 rounded-lg">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
-                <Brain className="h-4 w-4 text-primary" />
-                AI Mood Analysis
-              </h4>
-              <Button
-                onClick={analyzeWithAI}
-                disabled={isAnalyzing || !currentEntry.trim()}
-                variant="outline"
-                size="sm"
-                className="gap-2"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                    Analyzing...
-                  </>
-                ) : (
-                  <>
-                    <Brain className="h-3 w-3" />
-                    Analyze Mood
-                  </>
-                )}
-              </Button>
-            </div>
-            
-            {aiAnalysis && (
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Detected mood:</span>
-                  <span className="text-sm font-medium capitalize text-primary">{aiAnalysis.mood}</span>
-                  <span className="text-xs text-muted-foreground">
-                    ({Math.round(aiAnalysis.confidence * 100)}% confidence)
-                  </span>
+        <div>
+          {aiAnalysis && (
+            <div className="mt-4 p-4 rounded-lg bg-muted/40 flex items-center gap-4">
+              <Brain className="h-5 w-5 text-primary" />
+              <div>
+                <div className="text-sm text-foreground font-medium">
+                  AI Mood: <span className="font-bold">{getMoodEmoji(aiAnalysis.mood)} {aiAnalysis.mood}</span>
                 </div>
-                <p className="text-xs text-muted-foreground">{aiAnalysis.reason}</p>
+                <div className="text-xs text-muted-foreground">
+                  Confidence: {(aiAnalysis.confidence * 100).toFixed(0)}%<br />
+                  Reason: {aiAnalysis.reason}
+                </div>
               </div>
-            )}
-          </div>
-        )}
-
-        {!isAPIKeyConfigured() && (
-          <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-            <div className="flex items-center gap-2 text-amber-800">
-              <AlertCircle className="h-4 w-4" />
-              <span className="text-sm">
-                Add your OpenAI API key to enable AI mood analysis
-              </span>
             </div>
-          </div>
-        )}
+          )}
+        </div>
         
-        <div className="flex items-center justify-between mt-6">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            {(isSaving || isAnalyzing) && (
-              <>
-                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                {isSaving ? 'Saving...' : 'Analyzing...'}
-              </>
-            )}
-          </div>
-          <Button 
-            onClick={saveEntry}
-            disabled={isSaving || !currentEntry.trim()}
-            variant="default"
-            className="gap-2"
-          >
-            <Save className="h-4 w-4" />
+        <div className="flex gap-2 mt-6">
+          <Button onClick={analyzeWithAI} disabled={isAnalyzing || !currentEntry.trim()} className="gap-2">
+            <Sparkles className={`h-4 w-4 ${isAnalyzing ? 'animate-spin' : ''}`} />
+            {isAnalyzing ? 'Analyzing...' : 'Analyze with AI'}
+          </Button>
+          <Button onClick={saveEntry} disabled={isSaving || !currentEntry.trim()} className="gap-2">
+            <Save className={`h-4 w-4 ${isSaving ? 'animate-pulse' : ''}`} />
             {isSaving ? 'Saving...' : 'Save Entry'}
           </Button>
         </div>
       </Card>
-
-      {/* Recent Entries */}
-      {getRecentEntries().length > 0 && (
-        <Card className="p-6 bg-card shadow-soft border-0">
-          <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-accent" />
-            Recent Entries
-          </h3>
-          <div className="space-y-4">
-            {getRecentEntries().map((entry) => (
-              <div key={entry.id} className="p-4 bg-muted/30 rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm text-muted-foreground">{entry.date}</div>
-                  {entry.mood && (
-                    <span className="text-lg" title={entry.mood}>
-                      {getMoodEmoji(entry.mood)}
-                    </span>
-                  )}
+      <Card className="p-6 bg-card/60 backdrop-blur-sm border-0">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Recent Entries</h3>
+        <div className="space-y-3">
+          {getRecentEntries().length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <AlertCircle className="h-8 w-8 mx-auto mb-2 opacity-50" />
+              <p>Your recent entries will appear here</p>
+            </div>
+          ) : (
+            getRecentEntries().map(entry => (
+              <div key={entry.id} className="p-4 bg-background/50 rounded-lg border border-border/50">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-medium text-primary capitalize">
+                    {getMoodEmoji(entry.mood || 'neutral')} {entry.mood || 'neutral'}
+                  </span>
+                  <div className="h-1 w-1 bg-muted-foreground rounded-full" />
+                  <span className="text-sm text-muted-foreground">
+                    {new Date(entry.timestamp).toLocaleDateString()}
+                  </span>
                 </div>
-                <p className="text-foreground line-clamp-3">
-                  {entry.content.length > 150 
-                    ? `${entry.content.substring(0, 150)}...` 
-                    : entry.content
-                  }
+                <p className="text-sm text-foreground line-clamp-2">
+                  {entry.content}
                 </p>
               </div>
-            ))}
-          </div>
-        </Card>
-      )}
+            ))
+          )}
+        </div>
+      </Card>
     </div>
   );
 };
