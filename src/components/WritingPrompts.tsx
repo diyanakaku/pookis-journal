@@ -101,7 +101,6 @@ export const WritingPrompts: React.FC = () => {
 
     setIsLoading(true);
     
-    // Save to localStorage with timestamp
     const savedPrompts = JSON.parse(localStorage.getItem('promptResponses') || '[]');
     const newResponse = {
       id: Date.now().toString(),
@@ -144,7 +143,6 @@ export const WritingPrompts: React.FC = () => {
       {currentPrompt && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm shadow-elegant border-0">
           <div className="space-y-6">
-            {/* Prompt Header */}
             <div className="flex items-start gap-4">
               <div className={`p-3 rounded-xl ${gradientClass} shadow-soft`}>
                 <Icon className="h-6 w-6 text-accent-foreground" />
@@ -164,8 +162,6 @@ export const WritingPrompts: React.FC = () => {
                 </p>
               </div>
             </div>
-
-            {/* Response Area */}
             <div className="space-y-4">
               <Textarea
                 value={response}
@@ -202,7 +198,6 @@ export const WritingPrompts: React.FC = () => {
         </Card>
       )}
 
-      {/* Previous Responses Preview */}
       <Card className="p-6 bg-card/60 backdrop-blur-sm border-0">
         <h3 className="text-lg font-semibold text-foreground mb-4">Recent Reflections</h3>
         <RecentResponses />

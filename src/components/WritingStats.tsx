@@ -39,10 +39,8 @@ export const WritingStats: React.FC<WritingStatsProps> = ({ entries }) => {
       return;
     }
 
-    // Sort entries by date
     const sortedEntries = [...entries].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
-    // Calculate streaks
     let currentStreak = 0;
     let longestStreak = 0;
     let tempStreak = 0;
@@ -51,7 +49,6 @@ export const WritingStats: React.FC<WritingStatsProps> = ({ entries }) => {
     const todayStr = today.toDateString();
     const yesterdayStr = new Date(today.getTime() - 24 * 60 * 60 * 1000).toDateString();
     
-    // Check if user wrote today or yesterday to start streak
     const hasRecentEntry = sortedEntries.some(entry => 
       entry.date === todayStr || entry.date === yesterdayStr
     );
@@ -60,7 +57,6 @@ export const WritingStats: React.FC<WritingStatsProps> = ({ entries }) => {
       const uniqueDates = [...new Set(sortedEntries.map(entry => entry.date))];
       uniqueDates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
       
-      // Calculate current streak
       let checkDate = new Date();
       for (let i = 0; i < uniqueDates.length; i++) {
         const entryDate = new Date(uniqueDates[i]);
@@ -74,7 +70,6 @@ export const WritingStats: React.FC<WritingStatsProps> = ({ entries }) => {
         }
       }
       
-      // Calculate longest streak
       tempStreak = 1;
       longestStreak = 1;
       
@@ -92,14 +87,12 @@ export const WritingStats: React.FC<WritingStatsProps> = ({ entries }) => {
       }
     }
     
-    // Calculate word counts
     const totalWords = entries.reduce((sum, entry) => {
       return sum + entry.content.split(/\s+/).filter(word => word.length > 0).length;
     }, 0);
     
     const averageWordsPerEntry = entries.length > 0 ? Math.round(totalWords / entries.length) : 0;
     
-    // Calculate weekly goal progress (goal: 7 entries per week)
     const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     const weeklyEntries = entries.filter(entry => entry.timestamp >= oneWeekAgo);
     const weeklyGoalProgress = Math.min(100, Math.round((weeklyEntries.length / 7) * 100));
@@ -124,17 +117,14 @@ export const WritingStats: React.FC<WritingStatsProps> = ({ entries }) => {
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {/* Current Streak */}
       <Card className="p-4 bg-gradient-accent shadow-soft border-0 text-center">
         <div className="flex items-center justify-center mb-2">
-          <span className="text-2xl mr-2">{getStreakEmoji(stats.currentStreak)}</span>
           <Calendar className="h-4 w-4 text-accent-foreground" />
         </div>
         <div className="text-2xl font-bold text-accent-foreground">{stats.currentStreak}</div>
         <div className="text-sm text-accent-foreground/80">Current Streak</div>
       </Card>
 
-      {/* Longest Streak */}
       <Card className="p-4 bg-card shadow-soft border-0 text-center">
         <div className="flex items-center justify-center mb-2">
           <Award className="h-5 w-5 text-primary" />
@@ -143,7 +133,6 @@ export const WritingStats: React.FC<WritingStatsProps> = ({ entries }) => {
         <div className="text-sm text-muted-foreground">Best Streak</div>
       </Card>
 
-      {/* Total Words */}
       <Card className="p-4 bg-card shadow-soft border-0 text-center">
         <div className="flex items-center justify-center mb-2">
           <TrendingUp className="h-5 w-5 text-primary" />
@@ -152,7 +141,6 @@ export const WritingStats: React.FC<WritingStatsProps> = ({ entries }) => {
         <div className="text-sm text-muted-foreground">Total Words</div>
       </Card>
 
-      {/* Weekly Goal */}
       <Card className="p-4 bg-card shadow-soft border-0 text-center">
         <div className="flex items-center justify-center mb-2">
           <Target className="h-5 w-5 text-primary" />

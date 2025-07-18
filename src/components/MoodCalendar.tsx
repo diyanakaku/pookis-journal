@@ -50,7 +50,7 @@ export const MoodCalendar: React.FC = () => {
       .filter((entry: any) => entry.mood || entry.aiMood)
       .map((entry: any) => ({
         date: entry.date,
-        mood: entry.aiMood || entry.mood, // Prioritize AI-detected mood
+        mood: entry.aiMood || entry.mood, 
         timestamp: entry.timestamp
       }));
     setMoodEntries(moodData);
@@ -66,12 +66,9 @@ export const MoodCalendar: React.FC = () => {
 
     const days: (Date | null)[] = [];
 
-    // Add empty days for the previous month
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(null);
     }
-
-    // Add days of the current month
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
     }
@@ -155,7 +152,6 @@ export const MoodCalendar: React.FC = () => {
       </div>
 
       <Card className="p-6 bg-card/80 backdrop-blur-sm shadow-elegant border-0">
-        {/* Calendar Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <Calendar className="h-5 w-5 text-primary" />
@@ -184,9 +180,7 @@ export const MoodCalendar: React.FC = () => {
           </div>
         </div>
 
-        {/* Calendar Grid */}
         <div className="space-y-4">
-          {/* Day Labels */}
           <div className="grid grid-cols-7 gap-2 text-center">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
               <div key={day} className="text-sm font-medium text-muted-foreground py-2">
@@ -195,7 +189,6 @@ export const MoodCalendar: React.FC = () => {
             ))}
           </div>
 
-          {/* Calendar Days */}
           <div className="grid grid-cols-7 gap-2">
             {days.map((date, index) => {
               const mood = date ? getMoodForDate(date) : null;
@@ -223,7 +216,6 @@ export const MoodCalendar: React.FC = () => {
         </div>
       </Card>
 
-      {/* Month Statistics */}
       {Object.keys(monthStats).length > 0 && (
         <Card className="p-6 bg-card/60 backdrop-blur-sm border-0">
           <div className="flex items-center gap-2 mb-4">

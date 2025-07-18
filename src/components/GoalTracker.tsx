@@ -77,7 +77,6 @@ export const GoalTracker: React.FC = () => {
   };
 
   const analyzeJournalMentions = () => {
-    // Analyze journal entries for goal mentions
     const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
     const saved = localStorage.getItem('userGoals');
     if (!saved) return;
@@ -200,7 +199,6 @@ export const GoalTracker: React.FC = () => {
         </p>
       </div>
 
-      {/* Add Goal Button */}
       <div className="flex justify-center">
         <Button
           onClick={() => setShowAddForm(!showAddForm)}
@@ -211,7 +209,6 @@ export const GoalTracker: React.FC = () => {
         </Button>
       </div>
 
-      {/* Add Goal Form */}
       {showAddForm && (
         <Card className="p-6 bg-card/80 backdrop-blur-sm shadow-elegant border-0">
           <div className="space-y-4">
@@ -303,7 +300,6 @@ export const GoalTracker: React.FC = () => {
         </Card>
       )}
 
-      {/* Active Goals */}
       {activeGoals.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-xl font-semibold text-foreground">Active Goals</h3>
@@ -320,7 +316,6 @@ export const GoalTracker: React.FC = () => {
         </div>
       )}
 
-      {/* Completed Goals */}
       {completedGoals.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-xl font-semibold text-foreground flex items-center gap-2">
@@ -375,7 +370,6 @@ const GoalCard: React.FC<{
   return (
     <Card className={`p-6 shadow-elegant border-0 ${goal.completed ? 'bg-card/40' : 'bg-card/80'} backdrop-blur-sm`}>
       <div className="space-y-4">
-        {/* Goal Header */}
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-3">
             <div className={`p-2 rounded-lg ${categoryColors[goal.category]}`}>
@@ -417,7 +411,6 @@ const GoalCard: React.FC<{
           </Button>
         </div>
 
-        {/* Progress */}
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-foreground">Progress</span>
@@ -426,7 +419,6 @@ const GoalCard: React.FC<{
           <Progress value={goal.progress} className="h-2" />
         </div>
 
-        {/* Milestones */}
         {goal.milestones.length > 0 && (
           <div className="space-y-2">
             <h5 className="text-sm font-medium text-foreground">Milestones</h5>

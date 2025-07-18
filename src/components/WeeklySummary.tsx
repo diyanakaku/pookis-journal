@@ -122,7 +122,6 @@ export const WeeklySummary = () => {
 
   return (
     <div className="space-y-6">
-      {/* API Key Input */}
       <Card className="p-6 bg-gradient-soft shadow-soft border-0">
         <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
           <Brain className="h-5 w-5 text-primary" />
@@ -171,7 +170,6 @@ export const WeeklySummary = () => {
         </div>
       </Card>
 
-      {/* Weekly Summary */}
       {summary && (
         <Card className="p-6 bg-gradient-accent shadow-glow border-0 animate-fade-in">
           <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
@@ -186,7 +184,6 @@ export const WeeklySummary = () => {
         </Card>
       )}
 
-      {/* Weekly Entries Preview */}
       {weeklyEntries.length > 0 && (
         <Card className="p-6 bg-card shadow-soft border-0">
           <h3 className="text-lg font-semibold text-foreground mb-4">
