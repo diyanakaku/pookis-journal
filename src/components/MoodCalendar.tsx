@@ -47,10 +47,10 @@ export const MoodCalendar: React.FC = () => {
   const loadMoodEntries = () => {
     const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
     const moodData: MoodEntry[] = entries
-      .filter((entry: any) => entry.mood)
+      .filter((entry: any) => entry.mood || entry.aiMood)
       .map((entry: any) => ({
         date: entry.date,
-        mood: entry.mood,
+        mood: entry.aiMood || entry.mood, // Prioritize AI-detected mood
         timestamp: entry.timestamp
       }));
     setMoodEntries(moodData);
@@ -80,7 +80,7 @@ export const MoodCalendar: React.FC = () => {
   };
 
   const getMoodForDate = (date: Date): string | null => {
-    const dateString = date.toISOString().split('T')[0];
+    const dateString = date.toDateString();
     const entry = moodEntries.find(entry => entry.date === dateString);
     return entry ? entry.mood : null;
   };

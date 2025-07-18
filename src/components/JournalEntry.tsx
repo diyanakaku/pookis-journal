@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarDays, Sparkles, Save } from "lucide-react";
+import { CalendarDays, Sparkles, Save, Brain, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { MoodSelector } from "./MoodSelector";
+import { analyzeSentiment, isAPIKeyConfigured } from "@/lib/openai";
 
 interface JournalEntry {
   id: string;
@@ -12,13 +13,18 @@ interface JournalEntry {
   content: string;
   timestamp: number;
   mood?: string;
+  aiMood?: string;
+  aiConfidence?: number;
+  aiReason?: string;
 }
 
 export const JournalEntryComponent = () => {
   const [currentEntry, setCurrentEntry] = useState('');
   const [currentMood, setCurrentMood] = useState('');
   const [entries, setEntries] = useState<JournalEntry[]>([]);
-  const [isAutoSaving, setIsAutoSaving] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [aiAnalysis, setAiAnalysis] = useState<{mood: string, confidence: number, reason: string} | null>(null);
   const { toast } = useToast();
 
   const today = new Date().toDateString();
@@ -37,43 +43,102 @@ export const JournalEntryComponent = () => {
     if (todayEntry) {
       setCurrentEntry(todayEntry.content);
       setCurrentMood(todayEntry.mood || '');
+      if (todayEntry.aiMood) {
+        setAiAnalysis({
+          mood: todayEntry.aiMood,
+          confidence: todayEntry.aiConfidence || 0,
+          reason: todayEntry.aiReason || ''
+        });
+      }
     }
   }, [entries, today]);
 
-  // Auto-save functionality
-  useEffect(() => {
-    if (currentEntry.trim()) {
-      setIsAutoSaving(true);
-      const timeoutId = setTimeout(() => {
-        saveEntry();
-        setIsAutoSaving(false);
-      }, 2000);
-
-      return () => clearTimeout(timeoutId);
+  const analyzeWithAI = async () => {
+    if (!currentEntry.trim()) {
+      toast({
+        title: "Nothing to analyze",
+        description: "Please write something in your journal first.",
+        variant: "destructive"
+      });
+      return;
     }
-  }, [currentEntry]);
 
-  const saveEntry = () => {
-    if (!currentEntry.trim()) return;
+    setIsAnalyzing(true);
+    try {
+      const analysis = await analyzeSentiment(currentEntry);
+      setAiAnalysis(analysis);
+      setCurrentMood(analysis.mood); // Auto-set the mood from AI analysis
+      
+      toast({
+        title: "AI Analysis Complete 🧠",
+        description: `Detected mood: ${analysis.mood}. ${analysis.reason}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Analysis failed",
+        description: "Could not analyze your entry. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
-    const newEntry: JournalEntry = {
-      id: `${today}-${Date.now()}`,
-      date: today,
-      content: currentEntry,
-      timestamp: Date.now(),
-      mood: currentMood
-    };
+  const saveEntry = async () => {
+    if (!currentEntry.trim()) {
+      toast({
+        title: "Nothing to save",
+        description: "Please write something in your journal first.",
+        variant: "destructive"
+      });
+      return;
+    }
 
-    const updatedEntries = entries.filter(entry => entry.date !== today);
-    updatedEntries.push(newEntry);
+    setIsSaving(true);
     
-    setEntries(updatedEntries);
-    localStorage.setItem('journalEntries', JSON.stringify(updatedEntries));
-    
-    toast({
-      title: "Entry saved ✨",
-      description: "Your journal entry has been saved successfully.",
-    });
+    try {
+      // If no mood is selected and AI analysis is available, use AI mood
+      let finalMood = currentMood;
+      let analysis = aiAnalysis;
+      
+      if (!finalMood && currentEntry.trim() && isAPIKeyConfigured()) {
+        analysis = await analyzeSentiment(currentEntry);
+        finalMood = analysis.mood;
+        setAiAnalysis(analysis);
+      }
+
+      const newEntry: JournalEntry = {
+        id: `${today}-${Date.now()}`,
+        date: today,
+        content: currentEntry,
+        timestamp: Date.now(),
+        mood: finalMood,
+        aiMood: analysis?.mood,
+        aiConfidence: analysis?.confidence,
+        aiReason: analysis?.reason
+      };
+
+      const updatedEntries = entries.filter(entry => entry.date !== today);
+      updatedEntries.push(newEntry);
+      
+      setEntries(updatedEntries);
+      localStorage.setItem('journalEntries', JSON.stringify(updatedEntries));
+      
+      toast({
+        title: "Entry saved ✨",
+        description: analysis?.mood 
+          ? `Your journal entry has been saved with AI-detected mood: ${analysis.mood}`
+          : "Your journal entry has been saved successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Save failed",
+        description: "Could not save your entry. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const getRecentEntries = () => {
@@ -125,23 +190,78 @@ export const JournalEntryComponent = () => {
           />
         </div>
         
-        <div className="flex items-center justify-between mt-4">
+        {/* AI Analysis Section */}
+        {isAPIKeyConfigured() && (
+          <div className="mt-4 p-4 bg-muted/30 rounded-lg">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
+                <Brain className="h-4 w-4 text-primary" />
+                AI Mood Analysis
+              </h4>
+              <Button
+                onClick={analyzeWithAI}
+                disabled={isAnalyzing || !currentEntry.trim()}
+                variant="outline"
+                size="sm"
+                className="gap-2"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  <>
+                    <Brain className="h-3 w-3" />
+                    Analyze Mood
+                  </>
+                )}
+              </Button>
+            </div>
+            
+            {aiAnalysis && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">Detected mood:</span>
+                  <span className="text-sm font-medium capitalize text-primary">{aiAnalysis.mood}</span>
+                  <span className="text-xs text-muted-foreground">
+                    ({Math.round(aiAnalysis.confidence * 100)}% confidence)
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">{aiAnalysis.reason}</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {!isAPIKeyConfigured() && (
+          <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+            <div className="flex items-center gap-2 text-amber-800">
+              <AlertCircle className="h-4 w-4" />
+              <span className="text-sm">
+                Add your OpenAI API key to enable AI mood analysis
+              </span>
+            </div>
+          </div>
+        )}
+        
+        <div className="flex items-center justify-between mt-6">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            {isAutoSaving && (
+            {(isSaving || isAnalyzing) && (
               <>
                 <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                Auto-saving...
+                {isSaving ? 'Saving...' : 'Analyzing...'}
               </>
             )}
           </div>
           <Button 
             onClick={saveEntry}
-            variant="secondary"
-            size="sm"
+            disabled={isSaving || !currentEntry.trim()}
+            variant="default"
             className="gap-2"
           >
             <Save className="h-4 w-4" />
-            Save Entry
+            {isSaving ? 'Saving...' : 'Save Entry'}
           </Button>
         </div>
       </Card>
